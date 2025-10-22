@@ -1,15 +1,11 @@
 <?php
-// Enable error reporting
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 // admin/login.php - Admin login page
 require_once '../includes/config.php';
 require_once '../includes/database.php';
 
 // Redirect if already logged in
 if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true) {
-    header('Location: index.php');
+    header('Location: /admin/index.php');  // FIXED: Added full path
     exit;
 }
 
@@ -29,31 +25,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $db = new Database();
         $conn = $db->getConnection();
         
-        // Check if connection is successful
-        if (!$conn) {
-            $error = 'Database connection failed.';
+        $stmt = $conn->prepare("SELECT * FROM admin_users WHERE username = ? AND is_active = TRUE");
+        $stmt->execute([$username]);
+        $user = $stmt->fetch();
+        
+        if ($user && password_verify($password, $user['password_hash'])) {
+            $_SESSION['admin_logged_in'] = true;
+            $_SESSION['admin_username'] = $user['username'];
+            $_SESSION['admin_user_id'] = $user['id'];
+            $_SESSION['admin_role'] = $user['role'];
+            
+            header('Location: /admin/index.php');  // FIXED: Added full path
+            exit;
         } else {
-            $stmt = $conn->prepare("SELECT * FROM admin_users WHERE username = ? AND is_active = TRUE");
-            if ($stmt) {
-                $stmt->execute([$username]);
-                $user = $stmt->fetch();
-                
-                if ($user && password_verify($password, $user['password_hash'])) {
-                    $_SESSION['admin_logged_in'] = true;
-                    $_SESSION['admin_username'] = $user['username'];
-                    $_SESSION['admin_user_id'] = $user['id'];
-                    $_SESSION['admin_role'] = $user['role'];
-                    
-                    header('Location: index.php');
-                    exit;
-                } else {
-                    $error = $current_language === 'fr'
-                        ? 'Nom d\'utilisateur ou mot de passe incorrect.'
-                        : 'Invalid username or password.';
-                }
-            } else {
-                $error = 'Database query failed.';
-            }
+            $error = $current_language === 'fr'
+                ? 'Nom d\'utilisateur ou mot de passe incorrect.'
+                : 'Invalid username or password.';
         }
     }
 }
