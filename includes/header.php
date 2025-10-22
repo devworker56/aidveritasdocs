@@ -16,7 +16,7 @@
         <nav class="navbar navbar-expand-lg navbar-light py-2">
             <div class="container">
                 <!-- Logo -->
-                <a class="navbar-brand fw-bold" href="index.php">
+                <a class="navbar-brand fw-bold text-primary" href="index.php">
                     <span class="icon-container">
                         <i class="fas fa-shield shield-icon"></i>
                         <i class="fas fa-hand-holding-heart heart-icon"></i>
@@ -92,10 +92,8 @@
                             </button>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="admin/"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a></li>
-                                <li><a class="dropdown-item" href="admin/sections.php"><i class="fas fa-folder me-2"></i>Gérer les sections</a></li>
-                                <li><a class="dropdown-item" href="admin/pages.php"><i class="fas fa-file me-2"></i>Gérer les pages</a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="admin/logout.php"><i class="fas fa-sign-out-alt me-2"></i>Déconnexion</a></li>
+                                <li><a class="dropdown-item" href="admin/logout.php"><i class="fas fa-sign-out-alt me-2"></i><?php echo $current_language === 'fr' ? 'Déconnexion' : 'Logout'; ?></a></li>
                             </ul>
                         </div>
                         <?php else: ?>
