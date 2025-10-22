@@ -43,17 +43,7 @@ if ($conn) {
                         ? 'Guide complet pour utiliser l\'écosystème AidVeritas. Trouvez tout ce dont vous avez besoin pour les dons vérifiables et attribués.'
                         : 'Complete guide to using the AidVeritas ecosystem. Find everything you need for verifiable and attributed donations.'; ?>
                 </p>
-                <div class="search-box">
-                    <form action="search.php" method="GET">
-                        <div class="input-group input-group-lg">
-                            <input type="text" class="form-control" name="q" 
-                                   placeholder="<?php echo $lang['search_placeholder']; ?>">
-                            <button class="btn btn-primary" type="submit">
-                                <i class="fas fa-search"></i>
-                            </button>
-                        </div>
-                    </form>
-                </div>
+                <!-- REMOVED: Search box from homepage -->
             </div>
         </div>
     </div>
